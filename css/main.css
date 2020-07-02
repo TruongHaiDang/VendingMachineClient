@@ -81,7 +81,7 @@ h2 {
     width: 100%;
 }
 
-.prodName, .price {
+.prodName, .price, .quantityCustomer {
     text-align: start;
     padding-top: 15px;
     color: white;
@@ -129,6 +129,7 @@ h2 {
 .videoBlock {
     background-color: #343a40;
     color: white;
+    margin-top: 2em;
 }
 
 .ContactUs {

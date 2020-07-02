@@ -4,13 +4,13 @@ const api = new Api()
 $(document).ready(function() {
     $(window).scroll(() => {
         if($(window).scrollTop() >= 150) {
-            $('.cardProduct').css({"animation": "fadeInUp", "animation-duration": "2s"})
+            $('.cardProduct').css({"animation": "fadeInUp", "animation-duration": "2s"});
             $('.billContainer').css({"animation": "bounceInUp", "animation-duration": "2s"})
         }
         if($(window).scrollTop() >= 450) {
-            $('#avatar').css({"animation": "fadeInUp", "animation-duration": "2s"})
-            $('#avatar1').css({"animation": "fadeInUp", "animation-duration": "3s"})
-            $('#avatar2').css({"animation": "fadeInUp", "animation-duration": "4s"})
+            $('#avatar').css({"animation": "fadeInUp", "animation-duration": "2s"});
+            $('#avatar1').css({"animation": "fadeInUp", "animation-duration": "3s"});
+            $('#avatar2').css({"animation": "fadeInUp", "animation-duration": "4s"});
             $('#avatar3').css({"animation": "fadeInUp", "animation-duration": "5s"})
         }
         if($(window).scrollTop() >= 825) {
@@ -36,21 +36,32 @@ $(document).ready(function() {
 
     var sumValue = 0;
     var orderInfo = [];
+    var qty;
+    var qtyRes 
     function addToCart(name, price, imgUrl) {
-        $('#billContent').append(`<div class="row" id="${name}">
-                                    <div class="col-2">
-                                        <img class="STT" src="${imgUrl}" />
-                                    </div>
-                                    <div class="col-4">
-                                        <p class="prodName">${name}</p>
-                                    </div>
-                                    <div class="col-4">
-                                        <p class="price">${price}</p>
-                                    </div>
-                                    <div class="col-2" onclick="deleteToCart('${name}', '${price}')">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </div>
-                                </div>`)
+        if($(`#${name}`)[0]) {
+            qty++;
+            $(`#${name}qty`).text(qty);
+        }else {
+            qty = 1;
+            $('#billContent').append(`<div class="row" id="${name}">
+                                        <div class="col-2">
+                                            <img class="STT" src="${imgUrl}" />
+                                        </div>
+                                        <div class="col-4">
+                                            <p class="prodName">${name}</p>
+                                        </div>
+                                        <div class="col-2">
+                                            <p class="price">${price}</p>
+                                        </div>
+                                        <div class="col-2">
+                                            <p class="quantityCustomer" id="${name}qty">${qty}</p>
+                                        </div>
+                                        <div class="col-2" onclick="deleteToCart('${name}', '${price}')">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </div>
+                                    </div>`)
+        }
         sumValue += parseFloat(price)
         $('#sumValue').html(sumValue)
     }
@@ -58,13 +69,16 @@ $(document).ready(function() {
     function deleteToCart(name, price) {
         $(`#${name}`).remove();
         sumValue -= parseFloat(price);
-        $('#sumValue').html(sumValue);
+        $('#sumValue').html(sumValue)
     }
 
     $('#btnSubmit').click(() => {
         let amount = $('#sumValue').html().toString();
         var orderInfo = "";
         $('p.prodName').each(function() {
+            orderInfo += $(this).html() + " ";
+        })
+        $('p.quantityCustomer').each(function() {
             orderInfo += $(this).html() + " ";
         })
         api.payTheBill('https://haidang-vending-machine.herokuapp.com/payTheBill', {
