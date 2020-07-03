@@ -18,7 +18,8 @@ $(document).ready(function() {
         }
     })	
 
-    api.getData('https://haidang-vending-machine.herokuapp.com/machine01')
+    // api.getData('https://haidang-vending-machine.herokuapp.com/machine01')
+    api.getData('http://localhost:6969/machine01')
         .then((snapshot) => {
             let docs = snapshot.data
             for(let i in docs) {
@@ -81,7 +82,8 @@ $(document).ready(function() {
         $('p.quantityCustomer').each(function() {
             orderInfo += $(this).html() + " ";
         })
-        api.payTheBill('https://haidang-vending-machine.herokuapp.com/payTheBill', {
+        // api.payTheBill('https://haidang-vending-machine.herokuapp.com/payTheBill', {
+        api.payTheBill('http://localhost:6969/payTheBill', {
             amount: amount,
             orderInfo: orderInfo
         })
